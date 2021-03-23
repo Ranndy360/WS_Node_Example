@@ -1,0 +1,12 @@
+<%- include('../template/cabecera') %>
+
+    <div class="container">
+       <h1>Crear</h1>
+       <form action="/api/mascotas/crear" method="POST">
+           <input type="text" name="nombre" id="" placeholder="Agregar nombre" class="form-control my-2">
+           <input type="text" name="descripcion" id="" placeholder="Agregar descripcion" class="form-control my-2">
+           <button class="btn btn-primary" type="submit">Crear</button>
+       </form>
+    </div>
+
+<%- include('../template/footer') %>

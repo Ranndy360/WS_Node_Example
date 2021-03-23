@@ -1,0 +1,31 @@
+<%- include('../template/cabecera') %>
+
+    <div class="container">
+        <a class="btn btn-primary my-4" href="/api/mascotas/crear">
+            Crear nueva
+        </a>
+        <% if(mascotas.length > 0) { %>
+        <table class="table">
+            <thead>
+                <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Descripcion</th>
+                <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+            <% mascotas.forEach(mascota =>{  %>
+                      <tr>
+                        <th scope="row"><%=mascota.id%></th>
+                        <td><%=mascota.nombre%></td>
+                        <td><%=mascota.descripcion%></td>
+                        <td><button class="btn btn-primary">Editar</button></td>
+                      </tr>
+            <% }) %>
+            </tbody>
+        </table>
+        <% } %>
+    </div>
+
+<%- include('../template/footer') %>
