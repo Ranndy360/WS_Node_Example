@@ -9,7 +9,7 @@ router.get('/',(req,resp)=>{
 router.get('/servicios',(req,resp)=>{
     resp.render("./servicios/servicios",{titulo:"Ranndy360"});
 });
-
+//VER LISTA
 router.get('/mascotas', async (req,resp)=>{
 
     try {
@@ -23,7 +23,7 @@ router.get('/mascotas', async (req,resp)=>{
 router.get('/mascotas/crear', (req,resp)=>{
     resp.render('./servicios/crear');
 });
-
+//CREAR
 router.post('/mascotas/crear', async(req,resp)=>{
     const body = req.body;
     try {
@@ -34,4 +34,63 @@ router.post('/mascotas/crear', async(req,resp)=>{
         console.log(error);
     }
 });
+//VER DETALLE
+router.get('/mascota/:id', async(req,resp)=>{
+    const id = req.params.id;
+    try {
+        const mascotaDB = await Mascota.findOne({_id:id});
+        
+        resp.render('./servicios/editar',
+        {
+            mascota: mascotaDB,
+            error:false
+        });
+    } catch (error) {
+        console.log(error);
+        resp.render('./servicios/editar',
+        {
+            error:true,
+            mensaje: "No se encontro"
+        });
+    }
+});
+//ELIMINAR
+router.delete('/mascota/:id', async (req,resp)=>{
+    const id = req.params.id;
+    try {
+        const mascotaDB = await Mascota.findByIdAndDelete({_id:id});
+        if(mascotaDB){
+            resp.json({
+                estado: true,
+                mensaje: "Eliminado"
+            });
+        }else{            
+            resp.json({
+                estado: false,
+                mensaje: "Error al Eliminar"
+            });
+        }
+    } catch (error) {
+        console.log(error);
+    }
+});
+//EDITAR
+router.put('/mascota/:id', async(req,res)=>{
+    const id = req.params.id;
+    const body = req.body;
+    try {
+        const mascotaDB =  await Mascota.findByIdAndUpdate(id, body, {useFindAndModify:false} );
+        res.json({
+            estado:true,
+            mensaje: "Exito"
+        });
+    } catch (error) {
+        console.log(error);
+        res.json({
+            estado:false,
+            mensaje: "Fallo"
+        });
+    }
+});
+
 module.exports = router;

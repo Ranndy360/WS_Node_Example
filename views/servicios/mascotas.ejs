@@ -20,12 +20,27 @@
                         <th scope="row"><%=mascota.id%></th>
                         <td><%=mascota.nombre%></td>
                         <td><%=mascota.descripcion%></td>
-                        <td><button class="btn btn-primary">Editar</button></td>
+                        <td><a class="btn btn-primary" href="/api/mascota/<%=mascota.id%>">Editar</a>
+                            <button class="btn btn-danger" onclick="eliminar('<%=mascota.id%>')">Eliminar</button></td>
                       </tr>
             <% }) %>
             </tbody>
         </table>
         <% } %>
     </div>
-
+    <script>
+           async function eliminar(id){
+            try {
+                const data = await fetch(`/api/mascota/${id}`,{method:'delete'});
+                const res = await data.json();
+                if(res.estado){
+                    window.location.href = '/api/mascotas';
+                }else{
+                    console.log(res);
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    </script>
 <%- include('../template/footer') %>

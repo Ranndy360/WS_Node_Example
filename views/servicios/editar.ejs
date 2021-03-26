@@ -1,0 +1,41 @@
+<%- include('../template/cabecera') %>
+
+    <div class="container">
+       <h1>Detalle</h1>
+       <% if(error){ %>
+            <p> <%= mensaje%></p>
+            <a class="bt btn-primary" href="/api/mascota">Volver</a>
+       <% }else{ %>
+       <form id="FormEditar" data-id="<%=mascota.id%>">
+           <input type="text" id="nombre" value="<%=mascota.nombre%>" placeholder="Agregar nombre" class="form-control my-2">
+           <input type="text" id="descripcion" value="<%=mascota.descripcion%>" placeholder="Agregar descripcion" class="form-control my-2">
+           <button class="btn btn-primary" type="submit">Editar</button>
+       </form>
+       <% } %>
+    </div>
+<script>
+const FormEditar = document.querySelector("#FormEditar");
+FormEditar.addEventListener('submit',async (e)=>{
+    e.preventDefault();
+    const id = FormEditar.dataset.id;
+    const nombre = document.querySelector("#nombre").value;
+    const descripcion = document.querySelector("#descripcion").value;
+    
+    try {
+        const data = await fetch(`/api/mascota/${id}`,{
+            method:'put',
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify({nombre,descripcion})
+        });
+        const res = await data.json();
+        if(res.estado){
+            window.location.href = '/api/mascotas';
+        }else{
+            console.log(res);
+        }
+    } catch (error) {
+        console.log(error);
+    }
+});
+</script>
+<%- include('../template/footer') %>
